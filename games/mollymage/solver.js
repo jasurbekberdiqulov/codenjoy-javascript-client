@@ -35,6 +35,7 @@ var MollymageSolver = module.exports = {
         var Stuff = require('./../../engine/stuff.js');
 
         // TODO your code here
+        // for test commit
 
         return Direction.ACT;
     }
