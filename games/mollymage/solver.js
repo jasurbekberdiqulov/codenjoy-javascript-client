@@ -63,7 +63,7 @@ var MollymageSolver = module.exports = {
         const isFutureBlasts = (hero) => {
             for(let element of futureBlasts) {
                 if (element.x === hero[0] && element.y === hero[1]) {
-                    direction.push(Direction.ACT);
+                    direction = [];
                     return true;
                 }
             }
@@ -73,7 +73,10 @@ var MollymageSolver = module.exports = {
         const blasts = board.getBlasts();
         const isBlasts = (hero) => {
             for(let element of blasts) {
-                if (element.x === hero[0] && element.y === hero[1]) return true;
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction = [];
+                    return true;
+                }
             }
             return false;
         }
@@ -89,27 +92,49 @@ var MollymageSolver = module.exports = {
             return false;
         }
 
+        const heroes = board.getOtherHeroes();
+        const isHeros = (hero) => {
+            for(let element of heroes) {
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction.push(Direction.ACT);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        const potions = board.getPotions();
+        const isPotions = (hero) => {
+            for(let element of potions) {
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction.push(Direction.ACT);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         const right = [hero.x + 1, hero.y];
         const left = [hero.x - 1, hero.y];
         const down = [hero.x, hero.y - 1];
         const up = [hero.x, hero.y + 1];
 
-        if(!isTreasure(up) && !isBarrier(up) && !isFutureBlasts(up) && !isGhosts(up) && !isBlasts(up)) {
+        if(!isTreasure(up) && !isBarrier(up) && !isFutureBlasts(up) && !isGhosts(up) && !isBlasts(up) && !isHeros(up) && !isPotions(up)) {
             direction.push(Direction.UP);
             return direction;
         }
 
-        if(!isTreasure(right) && !isBarrier(right) && !isFutureBlasts(right) && !isGhosts(right) && !isBlasts(right)) {
+        if(!isTreasure(right) && !isBarrier(right) && !isFutureBlasts(right) && !isGhosts(right) && !isBlasts(right) && !isHeros(right) && !isPotions(right)) {
             direction.push(Direction.RIGHT);
             return direction;
         }
 
-        if(!isTreasure(down) && !isBarrier(down) && !isFutureBlasts(down) && !isGhosts(down) && !isBlasts(down)) {
+        if(!isTreasure(down) && !isBarrier(down) && !isFutureBlasts(down) && !isGhosts(down) && !isBlasts(down) && !isHeros(down) && !isPotions(down)) {
             direction.push(Direction.DOWN);
             return direction;
         }
 
-        if(!isTreasure(left) && !isBarrier(left) && !isFutureBlasts(left) && !isGhosts(left) && !isBlasts(left)) {
+        if(!isTreasure(left) && !isBarrier(left) && !isFutureBlasts(left) && !isGhosts(left) && !isBlasts(left) && !isHeros(left) && !isPotions(left)) {
             direction.push(Direction.LEFT);
             return direction;
         }
