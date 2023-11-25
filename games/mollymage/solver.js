@@ -23,7 +23,6 @@
 
 var MollymageSolver = module.exports = {
 
-    lastCommand: "",
     get: function (board) {
         /**
          * @return next hero action
@@ -41,7 +40,10 @@ var MollymageSolver = module.exports = {
         const treasures = board.getTreasureBoxes();
         const isTreasure = (hero) => {
             for(let element of treasures) {
-                if (element.x === hero[0] && element.y === hero[1]) return true;
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction.push(Direction.ACT);
+                    return true;
+                }
             }
             return false;
         }
@@ -49,7 +51,10 @@ var MollymageSolver = module.exports = {
         const barriers = board.getBarriers();
         const isBarrier = (hero) => {
             for(let element of barriers) {
-                if (element.x === hero[0] && element.y === hero[1]) return true;
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction.push(Direction.ACT);
+                    return true;
+                }
             }
             return false;
         }
@@ -57,6 +62,17 @@ var MollymageSolver = module.exports = {
         const futureBlasts = board.getFutureBlasts();
         const isFutureBlasts = (hero) => {
             for(let element of futureBlasts) {
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction.push(Direction.ACT);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        const blasts = board.getBlasts();
+        const isBlasts = (hero) => {
+            for(let element of blasts) {
                 if (element.x === hero[0] && element.y === hero[1]) return true;
             }
             return false;
@@ -65,9 +81,11 @@ var MollymageSolver = module.exports = {
         const ghosts = board.getGhosts();
         const isGhosts = (hero) => {
             for(let element of ghosts) {
-                if (element.x === hero[0] && element.y === hero[1]) return true;
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction.push(Direction.ACT);
+                    return true;
+                }
             }
-            direction.push(Direction.ACT);
             return false;
         }
 
@@ -76,27 +94,26 @@ var MollymageSolver = module.exports = {
         const down = [hero.x, hero.y - 1];
         const up = [hero.x, hero.y + 1];
 
-        if(!isTreasure(up) && !isBarrier(up) && !isFutureBlasts(up) && !isGhosts(up)) {
+        if(!isTreasure(up) && !isBarrier(up) && !isFutureBlasts(up) && !isGhosts(up) && !isBlasts(up)) {
             direction.push(Direction.UP);
             return direction;
         }
 
-        if(!isTreasure(right) && !isBarrier(right) && !isFutureBlasts(up) && !isGhosts(up)) {
+        if(!isTreasure(right) && !isBarrier(right) && !isFutureBlasts(right) && !isGhosts(right) && !isBlasts(right)) {
             direction.push(Direction.RIGHT);
-            return [...direction];
+            return direction;
         }
 
-        if(!isTreasure(down) && !isBarrier(down) && !isFutureBlasts(up) && !isGhosts(up)) {
+        if(!isTreasure(down) && !isBarrier(down) && !isFutureBlasts(down) && !isGhosts(down) && !isBlasts(down)) {
             direction.push(Direction.DOWN);
-            return [...direction];
+            return direction;
         }
 
-        if(!isTreasure(left) && !isBarrier(left) && !isFutureBlasts(up) && !isGhosts(up)) {
+        if(!isTreasure(left) && !isBarrier(left) && !isFutureBlasts(left) && !isGhosts(left) && !isBlasts(left)) {
             direction.push(Direction.LEFT);
-            return [Direction.ACT, direction];
+            return direction;
         }
 
-        this.lastCommand = direction;
         return direction;
     }
 };
