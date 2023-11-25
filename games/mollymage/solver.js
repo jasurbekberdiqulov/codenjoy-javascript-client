@@ -23,6 +23,7 @@
 
 var MollymageSolver = module.exports = {
 
+    lastCommand: "",
     get: function (board) {
         /**
          * @return next hero action
@@ -34,32 +35,50 @@ var MollymageSolver = module.exports = {
         var Element = Games.require('./elements.js');
         var Stuff = require('./../../engine/stuff.js');
 
-        // TODO your code here
-        const myHero = board.getHero();
-        const barries = board.getBarriers();
-        let direction = Direction.RIGHT;
-        let isOccurred = false;
-        for(let i = 0; i < barries.length; ++ i) {
-            barry = barries[i];
-            if(barry[0] !== myHero[0] + 1) {
-                direction = Direction.UP;
-                isOccurred = true;
+        const hero = board.getHero();
+        let direction = Direction.LEFT;
+
+        const treasures = board.getTreasureBoxes();
+        const isTreasure = (hero) => {
+            for(let element of treasures) {
+                if (element.x === hero[0] && element.y === hero[1]) return true;
             }
-            if(barry[0] !== myHero[0] - 1) {
-                direction = Direction.DOWN;
-                isOccurred = true;
+            return false;
+        }
+        const barriers = board.getBarriers();
+        const isBarrier = (hero) => {
+            for(let element of barriers) {
+                if (element.x === hero[0] && element.y === hero[1]) return true;
             }
-            if(barry[1] !== myHero[1] + 1) {
-                direction = Direction.RIGHT;
-                isOccurred = true;
-            }
-            if(barry[1] !== myHero[1] - 1) {
-                direction = Direction.LEFT;
-                isOccurred = true;
-            }
-            if(isOccurred) break;
+            return false;
         }
 
+        const right = [hero.x + 1, hero.y];
+        const left = [hero.x - 1, hero.y];
+        const down = [hero.x, hero.y - 1];
+        const up = [hero.x, hero.y + 1];
+
+        if(!isTreasure(up) && !isBarrier(up)) {
+            direction = Direction.UP;
+            return direction;
+        }
+
+        if(!isTreasure(right) && !isBarrier(right)) {
+            direction = Direction.RIGHT;
+            return direction;
+        }
+
+        if(!isTreasure(down) && !isBarrier(down)) {
+            direction = Direction.DOWN;
+            return direction;
+        }
+
+        if(!isTreasure(left) && !isBarrier(left)) {
+            direction = Direction.LEFT;
+            return direction;
+        }
+
+        this.lastCommand = direction;
         return direction;
     }
 };
