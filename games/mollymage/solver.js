@@ -121,24 +121,24 @@ var MollymageSolver = module.exports = {
 
         if(!isTreasure(up) && !isBarrier(up) && !isFutureBlasts(up) && !isGhosts(up) && !isBlasts(up) && !isHeros(up) && !isPotions(up)) {
             direction.push(Direction.UP);
-            return direction;
+            return [...new Set(direction)];
         }
 
         if(!isTreasure(right) && !isBarrier(right) && !isFutureBlasts(right) && !isGhosts(right) && !isBlasts(right) && !isHeros(right) && !isPotions(right)) {
             direction.push(Direction.RIGHT);
-            return direction;
+            return [...new Set(direction)];
         }
 
         if(!isTreasure(down) && !isBarrier(down) && !isFutureBlasts(down) && !isGhosts(down) && !isBlasts(down) && !isHeros(down) && !isPotions(down)) {
             direction.push(Direction.DOWN);
-            return direction;
+            return [...new Set(direction)];
         }
 
         if(!isTreasure(left) && !isBarrier(left) && !isFutureBlasts(left) && !isGhosts(left) && !isBlasts(left) && !isHeros(left) && !isPotions(left)) {
             direction.push(Direction.LEFT);
-            return direction;
+            return [...new Set(direction)];
         }
 
-        return direction;
+        return [...new Set(direction)];
     }
 };
