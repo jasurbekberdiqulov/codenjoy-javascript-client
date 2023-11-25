@@ -114,27 +114,38 @@ var MollymageSolver = module.exports = {
             return false;
         }
 
+        const perks = board.getPerks();
+        const isPerks = (hero) => {
+            for(let element of perks) {
+                if (element.x === hero[0] && element.y === hero[1]) {
+                    direction = [];
+                    return true;
+                }
+            }
+            return false;
+        }
+
         const right = [hero.x + 1, hero.y];
         const left = [hero.x - 1, hero.y];
         const down = [hero.x, hero.y - 1];
         const up = [hero.x, hero.y + 1];
 
-        if(!isTreasure(up) && !isBarrier(up) && !isFutureBlasts(up) && !isGhosts(up) && !isBlasts(up) && !isHeros(up) && !isPotions(up)) {
+        if(!isTreasure(up) && !isBarrier(up) && !isFutureBlasts(up) && !isGhosts(up) && !isBlasts(up) && !isHeros(up) && !isPotions(up) || isPerks(up)) {
             direction.push(Direction.UP);
             return [...new Set(direction)];
         }
 
-        if(!isTreasure(right) && !isBarrier(right) && !isFutureBlasts(right) && !isGhosts(right) && !isBlasts(right) && !isHeros(right) && !isPotions(right)) {
+        if(!isTreasure(right) && !isBarrier(right) && !isFutureBlasts(right) && !isGhosts(right) && !isBlasts(right) && !isHeros(right) && !isPotions(right) || isPerks(right)) {
             direction.push(Direction.RIGHT);
             return [...new Set(direction)];
         }
 
-        if(!isTreasure(down) && !isBarrier(down) && !isFutureBlasts(down) && !isGhosts(down) && !isBlasts(down) && !isHeros(down) && !isPotions(down)) {
+        if(!isTreasure(down) && !isBarrier(down) && !isFutureBlasts(down) && !isGhosts(down) && !isBlasts(down) && !isHeros(down) && !isPotions(down) || isPerks(down)) {
             direction.push(Direction.DOWN);
             return [...new Set(direction)];
         }
 
-        if(!isTreasure(left) && !isBarrier(left) && !isFutureBlasts(left) && !isGhosts(left) && !isBlasts(left) && !isHeros(left) && !isPotions(left)) {
+        if(!isTreasure(left) && !isBarrier(left) && !isFutureBlasts(left) && !isGhosts(left) && !isBlasts(left) && !isHeros(left) && !isPotions(left) || isPerks(left)) {
             direction.push(Direction.LEFT);
             return [...new Set(direction)];
         }
