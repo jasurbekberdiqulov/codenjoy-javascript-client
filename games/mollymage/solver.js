@@ -28,15 +28,38 @@ var MollymageSolver = module.exports = {
          * @return next hero action
          */
 
-        var Games = require('./../../engine/games.js');
-        var Point = require('./../../engine/point.js');
+        var Games = require('./../../engine/games.js'); // no need to check
+        var Point = require('./../../engine/point.js'); // no need to check
         var Direction = Games.require('./direction.js');
         var Element = Games.require('./elements.js');
         var Stuff = require('./../../engine/stuff.js');
 
         // TODO your code here
-        // for test commit
+        const myHero = board.getHero();
+        const barries = board.getBarriers();
+        let direction = Direction.RIGHT;
+        let isOccurred = false;
+        for(let i = 0; i < barries.length; ++ i) {
+            barry = barries[i];
+            if(barry[0] !== myHero[0] + 1) {
+                direction = Direction.UP;
+                isOccurred = true;
+            }
+            if(barry[0] !== myHero[0] - 1) {
+                direction = Direction.DOWN;
+                isOccurred = true;
+            }
+            if(barry[1] !== myHero[1] + 1) {
+                direction = Direction.RIGHT;
+                isOccurred = true;
+            }
+            if(barry[1] !== myHero[1] - 1) {
+                direction = Direction.LEFT;
+                isOccurred = true;
+            }
+            if(isOccurred) break;
+        }
 
-        return Direction.ACT;
+        return direction;
     }
 };
